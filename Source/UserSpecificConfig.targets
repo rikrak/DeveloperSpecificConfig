@@ -1,0 +1,95 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Adapted from http://www.diaryofaninja.com/blog/2011/09/14/using-custom-webconfig-transformations-in-msbuild -->
+  
+  <!-- this looks for files on disk that conform to app.<MACHINE_NAME>.config, or app.<USER_NAME>.config.  
+       For this to be effective edit the csproj files of the projects where you want the magic to work.  
+       Simply add the following just inside the closing </Project> tag:
+
+        <PropertyGroup>
+          <AfterBuildDependsOn/>
+        </PropertyGroup>
+        <PropertyGroup>
+          <SolutionDir Condition=" '$(SolutionDir)' == '' Or '$(SolutionDir)' == '*Undefined*'">..\</SolutionDir>
+        </PropertyGroup>
+        <Import Project="$(SolutionDir)UserSpecificConfig.targets"/>
+        <Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn)">
+        </Target>
+  -->
+  
+  <!--UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0\Web\Microsoft.Web.Publishing.Tasks.dll" /-->
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildProgramFiles32)\MSBuild\Microsoft\VisualStudio\v14.0\Web\Microsoft.Web.Publishing.Tasks.dll" />
+
+  <PropertyGroup>
+    <AfterBuildDependsOn>
+      $(AfterBuildDependsOn);
+      CopyWebConfigFromTemplate;
+      CreateUserSpecificAppConfig;
+      CreateMachineSpecificAppConfig;
+      CreateUserSpecificWebConfig;
+      CreateMachineSpecificWebConfig
+    </AfterBuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateUserSpecificAppConfig" Condition="Exists('app.$(USERNAME).config')">
+    <Message Text="OutDir = $(OutDir)"/>
+    <Message Text="OutputPath = $(OutputPath)"/>
+    <Copy SourceFiles="app.config" DestinationFiles="$(IntermediateOutputPath)tempapp.config" />
+    <TransformXml Source="$(IntermediateOutputPath)tempapp.config" Transform="app.$(USERNAME).config" Destination="$(IntermediateOutputPath)tempapp2.config" />
+    <ReadLinesFromFile File="$(IntermediateOutputPath)tempapp2.config">
+      <Output TaskParameter="Lines" ItemName="TransformedConfig" />
+    </ReadLinesFromFile>
+    <ReadLinesFromFile File="$(OutDir)$(AssemblyName)$(TargetExt).config">
+      <Output TaskParameter="Lines" ItemName="UnTransformedConfig" />
+    </ReadLinesFromFile>
+    <Copy Condition=" @(UnTransformedConfig) != @(TransformedConfig) " SourceFiles="$(IntermediateOutputPath)tempapp2.config" DestinationFiles="$(OutDir)$(AssemblyName)$(TargetExt).config" OverwriteReadOnlyFiles="True" />
+    <Message Text="Using a Configuration file specific to user $(USERNAME) for $(AssemblyName)" />
+  </Target>
+
+  <Target Name="CreateMachineSpecificAppConfig" Condition="Exists('app.$(COMPUTERNAME).config') And !Exists('app.$(USERNAME).config')">
+    <Message Text="OutDir = $(OutDir)"/>
+    <Message Text="OutputPath = $(OutputPath)"/>
+    <Message Text="IntermediatePath = $(IntermediateOutputPath)"/>
+
+    <Copy SourceFiles="app.config" DestinationFiles="$(IntermediateOutputPath)tempapp.config" />
+    <TransformXml Source="$(IntermediateOutputPath)tempapp.config" Transform="app.$(COMPUTERNAME).config" Destination="$(IntermediateOutputPath)tempapp2.config" />
+    <ReadLinesFromFile File="$(IntermediateOutputPath)tempapp2.config">
+      <Output TaskParameter="Lines" ItemName="TransformedConfig" />
+    </ReadLinesFromFile>
+    <ReadLinesFromFile File="$(OutDir)$(AssemblyName)$(TargetExt).config">
+      <Output TaskParameter="Lines" ItemName="UnTransformedConfig" />
+    </ReadLinesFromFile>
+    <Copy Condition=" @(UnTransformedConfig) != @(TransformedConfig) " SourceFiles="$(IntermediateOutputPath)tempapp2.config" DestinationFiles="$(OutDir)$(AssemblyName)$(TargetExt).config" OverwriteReadOnlyFiles="True" />
+    <Message Text="Using a Configuration file specific to machine $(COMPUTERNAME) for $(AssemblyName)" />
+  </Target>
+
+  <Target Name="CopyWebConfigFromTemplate" Condition="Exists('web.template.config')">
+    <Copy SourceFiles="web.template.config" DestinationFiles="web.config" OverwriteReadOnlyFiles="True"/>
+  </Target>
+
+  <Target Name="CreateUserSpecificWebConfig" Condition="Exists('web.$(USERNAME).config')" >
+    <Copy SourceFiles="web.config" DestinationFiles="$(IntermediateOutputPath)tempweb.config" />
+    <TransformXml Source="$(IntermediateOutputPath)tempweb.config" Transform="web.$(USERNAME).config" Destination="$(IntermediateOutputPath)tempweb2.config" />
+    <ReadLinesFromFile File="$(IntermediateOutputPath)tempweb2.config">
+      <Output TaskParameter="Lines" ItemName="TransformedConfig" />
+    </ReadLinesFromFile>
+    <ReadLinesFromFile File="web.config">
+      <Output TaskParameter="Lines" ItemName="UnTransformedConfig" />
+    </ReadLinesFromFile>
+    <Copy Condition=" @(UnTransformedConfig) != @(TransformedConfig) " SourceFiles="$(IntermediateOutputPath)tempweb2.config" DestinationFiles="web.config" OverwriteReadOnlyFiles="True" />
+    <Message Text="Using a web.config file specific to user $(USERNAME) for $(AssemblyName)" />
+  </Target>
+ 
+  <Target Name="CreateMachineSpecificWebConfig" Condition="Exists('web.$(COMPUTERNAME).config') And !Exists('web.$(USERNAME).config')" >
+    <Copy SourceFiles="web.config" DestinationFiles="$(IntermediateOutputPath)tempweb.config" />
+    <TransformXml Source="$(IntermediateOutputPath)tempweb.config" Transform="web.$(COMPUTERNAME).config" Destination="$(IntermediateOutputPath)tempweb2.config" />
+    <ReadLinesFromFile File="$(IntermediateOutputPath)tempweb2.config">
+      <Output TaskParameter="Lines" ItemName="TransformedConfig" />
+    </ReadLinesFromFile>
+    <ReadLinesFromFile File="web.config">
+      <Output TaskParameter="Lines" ItemName="UnTransformedConfig" />
+    </ReadLinesFromFile>
+    <Copy Condition=" @(UnTransformedConfig) != @(TransformedConfig) " SourceFiles="$(IntermediateOutputPath)tempweb2.config" DestinationFiles="web.config" OverwriteReadOnlyFiles="True" />
+    <Message Text="Using a web.config file specific to machine $(COMPUTERNAME) for $(AssemblyName)" />
+  </Target>
+</Project>
