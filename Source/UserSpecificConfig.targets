@@ -1,8 +1,16 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <!-- Adapted from http://www.diaryofaninja.com/blog/2011/09/14/using-custom-webconfig-transformations-in-msbuild -->
-  
-  <!-- this looks for files on disk that conform to app.<MACHINE_NAME>.config, or app.<USER_NAME>.config.  
+  <!-- Requires Visual Studio v14 (2015) -->
+  <!-- this looks for files on disk that conform to 
+         app.<MACHINE_NAME>.config,
+         app.<USER_NAME>.config,
+         web.<MACHINE_NAME>.config,
+         web.<USER_NAME>.config
+       
+       In the case of web.config files, there needs to be a web.template.config that contains the default settings.
+       The user specific config file will be applied to this as a transform.
+       
        For this to be effective edit the csproj files of the projects where you want the magic to work.  
        Simply add the following just inside the closing </Project> tag:
 
@@ -16,6 +24,7 @@
         <Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn)">
         </Target>
   -->
+  
   
   <!--UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0\Web\Microsoft.Web.Publishing.Tasks.dll" /-->
   <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildProgramFiles32)\MSBuild\Microsoft\VisualStudio\v14.0\Web\Microsoft.Web.Publishing.Tasks.dll" />
