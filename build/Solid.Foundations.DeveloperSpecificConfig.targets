@@ -1,7 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <!-- Adapted from http://www.diaryofaninja.com/blog/2011/09/14/using-custom-webconfig-transformations-in-msbuild -->
-  <!-- Requires Visual Studio v14 (2015) -->
   <!-- this looks for files on disk that conform to 
          app.<MACHINE_NAME>.config,
          app.<USER_NAME>.config,
@@ -10,22 +9,11 @@
        
        In the case of web.config files, there needs to be a web.template.config that contains the default settings.
        The user specific config file will be applied to this as a transform.
-       
-       For this to be effective edit the csproj files of the projects where you want the magic to work.  
-       Simply add the following just inside the closing </Project> tag:
-
-        <PropertyGroup>
-          <AfterBuildDependsOn/>
-        </PropertyGroup>
-        <Import Project="$(SolutionDir)UserSpecificConfig.targets"/>
-        <Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn)">
-        </Target>
   -->
   <PropertyGroup>
     <SolutionDir Condition=" '$(SolutionDir)' == '' Or '$(SolutionDir)' == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
-  
-  
+
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion> <!-- Defaults to VS 2015 -->
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
