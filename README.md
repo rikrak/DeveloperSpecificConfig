@@ -1,6 +1,5 @@
 # DeveloperSpecificConfig
 Amends the Visual Studio build process allowing each developer to work with their own settings in the web.config or app.config files.
-Currently requires Visual Studio 2015 (v14) to be installed.
 
 ## How to Use
 1. Copy the UserSpecificConfig.targets file to the root of your solution.
