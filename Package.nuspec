@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Solid.Foundations.DeveloperSpecificConfig</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>Rik Crompton</authors>
     <owners>Rik Crompton</owners>
     <!-- <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl> -->
@@ -10,7 +10,7 @@
     <!-- <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl> -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Amends the Visual Studio build process allowing each developer to work with their own settings in the web.config or app.config files.</description>
-    <releaseNotes>Initial Release.</releaseNotes>
+    <releaseNotes>v1.0.0: Initial Release.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>VisualStudio MsBuild Build</tags>
     <dependencies>
