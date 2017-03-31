@@ -6,9 +6,6 @@ Amends the Visual Studio build process allowing each developer to work with thei
 2. Edit the desired .csproj file
 3. Add the following just inside the closing </Project> tag:
 
-        <PropertyGroup>
-          <SolutionDir Condition=" '$(SolutionDir)' == '' Or '$(SolutionDir)' == '*Undefined*'">..\</SolutionDir>
-        </PropertyGroup>
         <Import Project="$(SolutionDir)DeveloperSpecificConfig.targets"/>
 
 4. Or use the NuGet package: Solid.Foundations.DeveloperSpecificConfig
