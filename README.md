@@ -5,15 +5,10 @@ Amends the Visual Studio build process allowing each developer to work with thei
 1. Copy the UserSpecificConfig.targets file to the root of your solution.
 2. Edit the desired .csproj file
 3. Add the following just inside the closing </Project> tag:
-   Note: you may need to implement this slightly differently if you already have an active AfterBuild target in your csproj file.
-   
-        <PropertyGroup>
-          <AfterBuildDependsOn/>
-        </PropertyGroup>
+
         <PropertyGroup>
           <SolutionDir Condition=" '$(SolutionDir)' == '' Or '$(SolutionDir)' == '*Undefined*'">..\</SolutionDir>
         </PropertyGroup>
-        <Import Project="$(SolutionDir)UserSpecificConfig.targets"/>
-        <Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn)">
-        </Target>
+        <Import Project="$(SolutionDir)DeveloperSpecificConfig.targets"/>
 
+4. Or use the NuGet package: Solid.Foundations.DeveloperSpecificConfig
