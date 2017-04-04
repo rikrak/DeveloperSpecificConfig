@@ -10,7 +10,7 @@
     <!-- <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl> -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Amends the Visual Studio build process allowing each developer to work with their own settings in the web.config or app.config files.</description>
-    <releaseNotes>v1.0.0: Initial Release.</releaseNotes>
+    <releaseNotes>v1.0.1: Fixed a bug whereby the microsoft.web.publishing.tasks.dll would not be found in some circumstances.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>VisualStudio MsBuild Build</tags>
     <dependencies>
