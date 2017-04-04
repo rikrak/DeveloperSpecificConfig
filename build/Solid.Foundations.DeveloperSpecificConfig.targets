@@ -16,7 +16,7 @@
 
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion> <!-- Defaults to VS 2015 -->
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <TransformXmlTask>$(VSToolsPath)\Web\Microsoft.Web.Publishing.Tasks.dll</TransformXmlTask>
   </PropertyGroup>
   <UsingTask TaskName="TransformXml" AssemblyFile="$(TransformXmlTask)" />
