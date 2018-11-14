@@ -21,22 +21,7 @@
   </PropertyGroup>
   <UsingTask TaskName="TransformXml" AssemblyFile="$(TransformXmlTask)" />
 
-  <PropertyGroup>
-    <AfterBuildDependsOn>
-      $(AfterBuildDependsOn);
-      CopyWebConfigFromTemplate;
-      CreateUserSpecificAppConfig;
-      CreateMachineSpecificAppConfig;
-      CreateUserSpecificWebConfig;
-      CreateMachineSpecificWebConfig
-    </AfterBuildDependsOn>
-    <BuildDependsOn>
-      $(BuildDependsOn)
-      $(AfterBuildDependsOn)
-    </BuildDependsOn>
-  </PropertyGroup>
-
-  <Target Name="CreateUserSpecificAppConfig" Condition="Exists('app.$(USERNAME).config')">
+  <Target Name="CreateUserSpecificAppConfig" AfterTargets="AfterBuild" Condition="Exists('app.$(USERNAME).config')">
     <Message Text="OutDir = $(OutDir)"/>
     <Message Text="OutputPath = $(OutputPath)"/>
     <Copy SourceFiles="app.config" DestinationFiles="$(IntermediateOutputPath)tempapp.config" />
@@ -51,7 +36,7 @@
     <Message Text="Using a Configuration file specific to user $(USERNAME) for $(AssemblyName)" />
   </Target>
 
-  <Target Name="CreateMachineSpecificAppConfig" Condition="Exists('app.$(COMPUTERNAME).config') And !Exists('app.$(USERNAME).config')">
+  <Target Name="CreateMachineSpecificAppConfig" AfterTargets="AfterBuild" Condition="Exists('app.$(COMPUTERNAME).config') And !Exists('app.$(USERNAME).config')">
     <Message Text="OutDir = $(OutDir)"/>
     <Message Text="OutputPath = $(OutputPath)"/>
     <Message Text="IntermediatePath = $(IntermediateOutputPath)"/>
@@ -68,11 +53,11 @@
     <Message Text="Using a Configuration file specific to machine $(COMPUTERNAME) for $(AssemblyName)" />
   </Target>
 
-  <Target Name="CopyWebConfigFromTemplate" Condition="Exists('web.template.config')">
+  <Target Name="CopyWebConfigFromTemplate" AfterTargets="AfterBuild" Condition="Exists('web.template.config')">
     <Copy SourceFiles="web.template.config" DestinationFiles="web.config" OverwriteReadOnlyFiles="True"/>
   </Target>
 
-  <Target Name="CreateUserSpecificWebConfig" Condition="Exists('web.$(USERNAME).config')" >
+  <Target Name="CreateUserSpecificWebConfig" AfterTargets="AfterBuild" Condition="Exists('web.$(USERNAME).config')" >
     <Copy SourceFiles="web.config" DestinationFiles="$(IntermediateOutputPath)tempweb.config" />
     <TransformXml Source="$(IntermediateOutputPath)tempweb.config" Transform="web.$(USERNAME).config" Destination="$(IntermediateOutputPath)tempweb2.config" />
     <ReadLinesFromFile File="$(IntermediateOutputPath)tempweb2.config">
@@ -85,7 +70,7 @@
     <Message Text="Using a web.config file specific to user $(USERNAME) for $(AssemblyName)" />
   </Target>
  
-  <Target Name="CreateMachineSpecificWebConfig" Condition="Exists('web.$(COMPUTERNAME).config') And !Exists('web.$(USERNAME).config')" >
+  <Target Name="CreateMachineSpecificWebConfig" AfterTargets="AfterBuild" Condition="Exists('web.$(COMPUTERNAME).config') And !Exists('web.$(USERNAME).config')" >
     <Copy SourceFiles="web.config" DestinationFiles="$(IntermediateOutputPath)tempweb.config" />
     <TransformXml Source="$(IntermediateOutputPath)tempweb.config" Transform="web.$(COMPUTERNAME).config" Destination="$(IntermediateOutputPath)tempweb2.config" />
     <ReadLinesFromFile File="$(IntermediateOutputPath)tempweb2.config">
