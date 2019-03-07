@@ -24,6 +24,12 @@
   <Target Name="CreateUserSpecificAppConfig" AfterTargets="AfterBuild" Condition="Exists('app.$(USERNAME).config')">
     <Message Text="OutDir = $(OutDir)"/>
     <Message Text="OutputPath = $(OutputPath)"/>
+
+    <!-- If the project has elected to auto-generate binding redirects, a config file will be generated in the intermediate folder with those redirects -->
+    <!-- Use the generated file as the basis for the transform in stead of the source app.config -->
+    <Copy SourceFiles="app.config" DestinationFiles="$(IntermediateOutputPath)tempapp.config" Condition="!Exists('$(IntermediateOutputPath)$(AssemblyName)$(TargetExt).config')" />
+    <Copy SourceFiles="$(IntermediateOutputPath)$(AssemblyName)$(TargetExt).config" DestinationFiles="$(IntermediateOutputPath)tempapp.config" Condition="Exists('$(IntermediateOutputPath)$(AssemblyName)$(TargetExt).config')" />
+    
     <Copy SourceFiles="app.config" DestinationFiles="$(IntermediateOutputPath)tempapp.config" />
     <TransformXml Source="$(IntermediateOutputPath)tempapp.config" Transform="app.$(USERNAME).config" Destination="$(IntermediateOutputPath)tempapp2.config" />
     <ReadLinesFromFile File="$(IntermediateOutputPath)tempapp2.config">
@@ -41,7 +47,11 @@
     <Message Text="OutputPath = $(OutputPath)"/>
     <Message Text="IntermediatePath = $(IntermediateOutputPath)"/>
 
-    <Copy SourceFiles="app.config" DestinationFiles="$(IntermediateOutputPath)tempapp.config" />
+    <!-- If the project has elected to auto-generate binding redirects, a config file will be generated in the intermediate folder with those redirects -->
+    <!-- Use the generated file as the basis for the transform in stead of the source app.config -->
+    <Copy SourceFiles="app.config" DestinationFiles="$(IntermediateOutputPath)tempapp.config" Condition="!Exists('$(IntermediateOutputPath)$(AssemblyName)$(TargetExt).config')" />
+    <Copy SourceFiles="$(IntermediateOutputPath)$(AssemblyName)$(TargetExt).config" DestinationFiles="$(IntermediateOutputPath)tempapp.config" Condition="Exists('$(IntermediateOutputPath)$(AssemblyName)$(TargetExt).config')" />
+    
     <TransformXml Source="$(IntermediateOutputPath)tempapp.config" Transform="app.$(COMPUTERNAME).config" Destination="$(IntermediateOutputPath)tempapp2.config" />
     <ReadLinesFromFile File="$(IntermediateOutputPath)tempapp2.config">
       <Output TaskParameter="Lines" ItemName="TransformedConfig" />
