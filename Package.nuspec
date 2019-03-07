@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Solid.Foundations.DeveloperSpecificConfig</id>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <authors>Rik Crompton</authors>
     <owners>Rik Crompton</owners>
     <!-- <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl> -->
@@ -13,8 +13,9 @@
     <releaseNotes>
         v1.0.1: Fixed a bug whereby the microsoft.web.publishing.tasks.dll would not be found in some circumstances.
         v1.0.2: Fixed a bug whereby Visual Studio builds would not transform the config files.
+        v1.0.3: Fixed a bug whereby projects that Auto Generate binding redirects would not retain the generated redirects.
         </releaseNotes>
-    <copyright>Copyright 2018</copyright>
+    <copyright>Copyright 2019</copyright>
     <tags>VisualStudio MsBuild Build</tags>
     <dependencies>
       <!-- <dependency id="SampleDependency" version="1.0" /> -->
