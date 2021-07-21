@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Solid.Foundations.DeveloperSpecificConfig</id>
-    <version>1.0.5</version>
+    <version>1.0.5.1</version>
     <authors>Rik Crompton</authors>
     <owners>Rik Crompton</owners>
     <license type="expression">MIT</license>
