@@ -12,7 +12,8 @@
   -->
   <PropertyGroup>
     <SolutionDir Condition=" '$(SolutionDir)' == '' Or '$(SolutionDir)' == '*Undefined*'">..\</SolutionDir>
-    <RunCreateUserSpecificConfigAfter>$(RunCreateUserSpecificConfigAfter);AfterBuild</RunCreateUserSpecificConfigAfter>
+    <RunCreateUserSpecificConfigAfterDefault Condition="'$(RunCreateUserSpecificConfigAfter)' == '' And '$(RunCreateUserSpecificConfigBefore)' == ''">AfterBuild</RunCreateUserSpecificConfigAfterDefault>
+    <RunCreateUserSpecificConfigAfter>$(RunCreateUserSpecificConfigAfter);$(RunCreateUserSpecificConfigAfterDefault)</RunCreateUserSpecificConfigAfter>
     <RunCreateUserSpecificConfigBefore>$(RunCreateUserSpecificConfigBefore)</RunCreateUserSpecificConfigBefore>
   </PropertyGroup>
 

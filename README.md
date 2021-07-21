@@ -10,7 +10,7 @@ Amends the Visual Studio build process allowing each developer to work with thei
 
 4. Or use the NuGet package: `Solid.Foundations.DeveloperSpecificConfig`
 
-## influencing the Execution Order
+## Influencing the Execution Order
 In some cases there may be other parts of the build process that are also transforming the config file (this is particularly true of the web.config in ASP.NET projects).
 In these scenarios it's important that the transfomations are executed in the correct order.  Generally the Developer specific config will need to run first as it begins from a template and creates the web.config file.
 

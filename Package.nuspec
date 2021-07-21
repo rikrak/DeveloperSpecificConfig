@@ -16,6 +16,7 @@
         v1.0.3: Fixed a bug whereby projects that Auto Generate binding redirects would not retain the generated redirects.
         v1.0.4: Specified a license.
         v1.0.5: Added the ability to influence the order of execution
+        v1.0.5.1: Bug Fix: Fixed an issue whereby the targets would run in the wrong order if the desired location was before "AfterBuild"
         </releaseNotes>
     <copyright>Copyright 2021</copyright>
     <tags>VisualStudio MsBuild Build</tags>
