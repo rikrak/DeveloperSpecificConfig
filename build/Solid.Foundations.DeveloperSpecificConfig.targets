@@ -66,11 +66,11 @@
     <Message Text="Using a Configuration file specific to machine $(COMPUTERNAME) for $(AssemblyName)" />
   </Target>
 
-  <Target Name="CopyWebConfigFromTemplate" AfterTargets="$(RunCreateUserSpecificConfigAfter)" BeforeTargets="$(RunCreateUserSpecificConfigBefore)" Condition="Exists('web.template.config')">
+  <Target Name="CopyWebConfigFromTemplate" AfterTargets="$(RunCreateUserSpecificConfigAfter)" BeforeTargets="CreateMachineSpecificWebConfig;CreateUserSpecificWebConfig;$(RunCreateUserSpecificConfigBefore)" Condition="Exists('web.template.config')">
     <Copy SourceFiles="web.template.config" DestinationFiles="web.config" OverwriteReadOnlyFiles="True"/>
   </Target>
 
-  <Target Name="CreateUserSpecificWebConfig" AfterTargets="$(RunCreateUserSpecificConfigAfter)" BeforeTargets="$(RunCreateUserSpecificConfigBefore)" Condition="Exists('web.$(USERNAME).config')" >
+  <Target Name="CreateUserSpecificWebConfig" AfterTargets="$(RunCreateUserSpecificConfigAfter)" BeforeTargets="MvcBuildViews;$(RunCreateUserSpecificConfigBefore)" Condition="Exists('web.$(USERNAME).config')" >
     <Copy SourceFiles="web.config" DestinationFiles="$(IntermediateOutputPath)tempweb.config" />
     <TransformXml Source="$(IntermediateOutputPath)tempweb.config" Transform="web.$(USERNAME).config" Destination="$(IntermediateOutputPath)tempweb2.config" />
     <ReadLinesFromFile File="$(IntermediateOutputPath)tempweb2.config">
@@ -83,7 +83,7 @@
     <Message Text="Using a web.config file specific to user $(USERNAME) for $(AssemblyName)" />
   </Target>
  
-  <Target Name="CreateMachineSpecificWebConfig" AfterTargets="$(RunCreateUserSpecificConfigAfter)" BeforeTargets="$(RunCreateUserSpecificConfigBefore)" Condition="Exists('web.$(COMPUTERNAME).config') And !Exists('web.$(USERNAME).config')" >
+  <Target Name="CreateMachineSpecificWebConfig" AfterTargets="$(RunCreateUserSpecificConfigAfter)" BeforeTargets="MvcBuildViews;$(RunCreateUserSpecificConfigBefore)" Condition="Exists('web.$(COMPUTERNAME).config') And !Exists('web.$(USERNAME).config')" >
     <Copy SourceFiles="web.config" DestinationFiles="$(IntermediateOutputPath)tempweb.config" />
     <TransformXml Source="$(IntermediateOutputPath)tempweb.config" Transform="web.$(COMPUTERNAME).config" Destination="$(IntermediateOutputPath)tempweb2.config" />
     <ReadLinesFromFile File="$(IntermediateOutputPath)tempweb2.config">
