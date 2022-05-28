@@ -6,22 +6,22 @@ Amends the Visual Studio build process allowing each developer to work with thei
 
 ## How to Use
 1. Manual
-  a.  Copy the `UserSpecificConfig.targets` file to the root of your solution.
-  b. Edit the desired .csproj file
-  c. Add the following just inside the closing </Project> tag:
+   - Copy the `UserSpecificConfig.targets` file to the root of your solution.
+   - Edit the desired .csproj file
+   - Add the following just inside the closing </Project> tag:
 
         <Import Project="$(SolutionDir)DeveloperSpecificConfig.targets"/>
 
 2. Or use the NuGet package: `Solid.Foundations.DeveloperSpecificConfig`
 3. For regular program projects:
-  a. Create a file named `App.MACHINE_NAME.config`  e.g. `App.Dev-Machine.config`
-  b. Add some transformations to the file
-  c. Build the project. The resulting `Program.exe.config` will be a combination of `App.config` and `App.MACHINE_NAME.config`
+   - Create a file named `App.MACHINE_NAME.config`  e.g. `App.Dev-Machine.config`
+   - Add some transformations to the file
+   - Build the project. The resulting `Program.exe.config` will be a combination of `App.config` and `App.MACHINE_NAME.config`
 4. For a Web project
-  a. Copy the existing `web.config` into a file named `web.template.config`
-  b. Creat a transformation file named `web.MACHINE_NAME.config`
-  c. Add some transformations
-  d. Build the project. The resulting `web.config` will be a combination of `web.template.config` and `web.MACHINE_NAME.config`
+   - Copy the existing `web.config` into a file named `web.template.config`
+   - Creat a transformation file named `web.MACHINE_NAME.config`
+   - Add some transformations
+   - Build the project. The resulting `web.config` will be a combination of `web.template.config` and `web.MACHINE_NAME.config`
 
 ## Influencing the Execution Order
 In some cases there may be other parts of the build process that are also transforming the config file (this is particularly true of the web.config in ASP.NET projects).
