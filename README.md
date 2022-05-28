@@ -1,14 +1,27 @@
 # DeveloperSpecificConfig
-Amends the Visual Studio build process allowing each developer to work with their own settings in the web.config or app.config files.
+Amends the Visual Studio build process allowing each developer to work with their own settings in the web.config or app.config files.  It uses [config transformations](http://msdn.microsoft.com/en-us/library/dd465326.aspx) to achieve this.  Transformation files are located by looking for a file with the name `app.MACHINE_NAME.config` (`web.MACHINE_NAME.config` for asp.net projects).  If found the transforms in that file will be applied to the `app.config` (or `web.template.config`).
+
+**NOTE:** for web projects, there needs to be a master configuration file named `web.template.config`.  This is considered the master copy of the config file.  At build time the `web.template.config` will be copied over the `web.config` and have transforms applied.
+
 
 ## How to Use
-1. Copy the `UserSpecificConfig.targets` file to the root of your solution.
-2. Edit the desired .csproj file
-3. Add the following just inside the closing </Project> tag:
+1. Manual
+  a.  Copy the `UserSpecificConfig.targets` file to the root of your solution.
+  b. Edit the desired .csproj file
+  c. Add the following just inside the closing </Project> tag:
 
         <Import Project="$(SolutionDir)DeveloperSpecificConfig.targets"/>
 
-4. Or use the NuGet package: `Solid.Foundations.DeveloperSpecificConfig`
+2. Or use the NuGet package: `Solid.Foundations.DeveloperSpecificConfig`
+3. For regular program projects:
+  a. Create a file named `App.MACHINE_NAME.config`  e.g. `App.Dev-Machine.config`
+  b. Add some transformations to the file
+  c. Build the project. The resulting `Program.exe.config` will be a combination of `App.config` and `App.MACHINE_NAME.config`
+4. For a Web project
+  a. Copy the existing `web.config` into a file named `web.template.config`
+  b. Creat a transformation file named `web.MACHINE_NAME.config`
+  c. Add some transformations
+  d. Build the project. The resulting `web.config` will be a combination of `web.template.config` and `web.MACHINE_NAME.config`
 
 ## Influencing the Execution Order
 In some cases there may be other parts of the build process that are also transforming the config file (this is particularly true of the web.config in ASP.NET projects).
