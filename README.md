@@ -6,11 +6,11 @@ Amends the Visual Studio build process allowing each developer to work with thei
 
 ## How to Use
 1. Manual
-   - Copy the `UserSpecificConfig.targets` file to the root of your solution.
+   - Copy the `Solid.Foundations.DeveloperSpecificConfig.targets` file to the root of your solution.
    - Edit the desired .csproj file
    - Add the following just inside the closing </Project> tag:
 
-        <Import Project="$(SolutionDir)DeveloperSpecificConfig.targets"/>
+        <Import Project="$(SolutionDir)Solid.Foundations.DeveloperSpecificConfig.targets"/>
 
 2. Or use the NuGet package: `Solid.Foundations.DeveloperSpecificConfig`
 3. For regular program projects:

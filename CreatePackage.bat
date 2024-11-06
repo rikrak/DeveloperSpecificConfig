@@ -1,1 +1,1 @@
-nuget pack Package.nuspec
+nuget pack src\Package.nuspec
