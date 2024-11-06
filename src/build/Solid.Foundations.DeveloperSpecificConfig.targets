@@ -10,6 +10,7 @@
        In the case of web.config files, there needs to be a web.template.config that contains the default settings.
        The user specific config file will be applied to this as a transform.
   -->
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.Publish"/>
   <PropertyGroup>
     <SolutionDir Condition=" '$(SolutionDir)' == '' Or '$(SolutionDir)' == '*Undefined*'">..\</SolutionDir>
     <RunCreateUserSpecificConfigAfterDefault Condition="'$(RunCreateUserSpecificConfigAfter)' == '' And '$(RunCreateUserSpecificConfigBefore)' == ''">AfterBuild</RunCreateUserSpecificConfigAfterDefault>
@@ -18,7 +19,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion> <!-- Defaults to VS 2015 -->
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">17.0</VisualStudioVersion> <!-- Defaults to VS 2022 -->
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <TransformXmlTask>$(VSToolsPath)\Web\Microsoft.Web.Publishing.Tasks.dll</TransformXmlTask>
   </PropertyGroup>
