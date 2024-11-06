@@ -18,19 +18,12 @@
     <RunCreateUserSpecificConfigBefore>$(RunCreateUserSpecificConfigBefore)</RunCreateUserSpecificConfigBefore>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">17.0</VisualStudioVersion> <!-- Defaults to VS 2022 -->
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <TransformXmlTask>$(VSToolsPath)\Web\Microsoft.Web.Publishing.Tasks.dll</TransformXmlTask>
-  </PropertyGroup>
-  <UsingTask TaskName="TransformXml" AssemblyFile="$(TransformXmlTask)" />
-
   <Target Name="CreateUserSpecificAppConfig" AfterTargets="$(RunCreateUserSpecificConfigAfter)" BeforeTargets="$(RunCreateUserSpecificConfigBefore)" Condition="Exists('app.$(USERNAME).config')">
     <Message Text="OutDir = $(OutDir)"/>
     <Message Text="OutputPath = $(OutputPath)"/>
 
     <!-- If the project has elected to auto-generate binding redirects, a config file will be generated in the intermediate folder with those redirects -->
-    <!-- Use the generated file as the basis for the transform in stead of the source app.config -->
+    <!-- Use the generated file as the basis for the transform instead of the source app.config -->
     <Copy SourceFiles="app.config" DestinationFiles="$(IntermediateOutputPath)tempapp.config" Condition="!Exists('$(IntermediateOutputPath)$(AssemblyName)$(TargetExt).config')" />
     <Copy SourceFiles="$(IntermediateOutputPath)$(AssemblyName)$(TargetExt).config" DestinationFiles="$(IntermediateOutputPath)tempapp.config" Condition="Exists('$(IntermediateOutputPath)$(AssemblyName)$(TargetExt).config')" />
     
@@ -52,7 +45,7 @@
     <Message Text="IntermediatePath = $(IntermediateOutputPath)"/>
 
     <!-- If the project has elected to auto-generate binding redirects, a config file will be generated in the intermediate folder with those redirects -->
-    <!-- Use the generated file as the basis for the transform in stead of the source app.config -->
+    <!-- Use the generated file as the basis for the transform instead of the source app.config -->
     <Copy SourceFiles="app.config" DestinationFiles="$(IntermediateOutputPath)tempapp.config" Condition="!Exists('$(IntermediateOutputPath)$(AssemblyName)$(TargetExt).config')" />
     <Copy SourceFiles="$(IntermediateOutputPath)$(AssemblyName)$(TargetExt).config" DestinationFiles="$(IntermediateOutputPath)tempapp.config" Condition="Exists('$(IntermediateOutputPath)$(AssemblyName)$(TargetExt).config')" />
     
