@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>NetCore_Mvc</RootNamespace>
+  </PropertyGroup>
+  <Import Project="../../src/build/Solid.Foundations.DeveloperSpecificConfig.targets" />
+  <ItemGroup>
+    <Content Remove="App.config" />
+    <Content Remove="App.tsb-rikc-lpt.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="App.tsb-rikc-lpt.config" />
+  </ItemGroup>
+
+</Project>
