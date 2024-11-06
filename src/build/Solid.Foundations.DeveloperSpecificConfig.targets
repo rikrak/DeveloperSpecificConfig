@@ -10,7 +10,7 @@
        In the case of web.config files, there needs to be a web.template.config that contains the default settings.
        The user specific config file will be applied to this as a transform.
   -->
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.Publish"/>
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.Publish" Condition="'$(UsingMicrosoftNETSdkPublish)' != 'true'"/>
   <PropertyGroup>
     <SolutionDir Condition=" '$(SolutionDir)' == '' Or '$(SolutionDir)' == '*Undefined*'">..\</SolutionDir>
     <RunCreateUserSpecificConfigAfterDefault Condition="'$(RunCreateUserSpecificConfigAfter)' == '' And '$(RunCreateUserSpecificConfigBefore)' == ''">AfterBuild</RunCreateUserSpecificConfigAfterDefault>

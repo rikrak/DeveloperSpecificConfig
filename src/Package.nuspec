@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Solid.Foundations.DeveloperSpecificConfig</id>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <authors>Rik Crompton</authors>
     <owners>Rik Crompton</owners>
     <license type="expression">MIT</license>
@@ -19,7 +19,7 @@
         v1.0.5: Added the ability to influence the order of execution
         v1.0.5.1: Bug Fix: Fixed an issue whereby the targets would run in the wrong order if the desired location was before "AfterBuild"
         v1.0.6: Ensured the web.config transformation happens prior to MvcBuildViews as the web.config is used by this process
-		v1.0.7: Fixed an issue whereby the transform did not work with dotnet build
+		v1.0.8: Removed a warning (MSB4011) that would occur in web sdk projects
         </releaseNotes>
     <copyright>Copyright 2024</copyright>
     <tags>VisualStudio MsBuild Build</tags>
